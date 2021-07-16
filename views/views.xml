@@ -1,0 +1,62 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="meetup.list">
+      <field name="name">Meetup list</field>
+      <field name="model">meetup.meetup</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="meetfdate"/>
+          <field name="meettdate"/>
+          <field name="mob"/>
+          <field name="cname"/>
+        </tree>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="meetup.action_window">
+      <field name="name">Meetup window</field>
+      <field name="res_model">meetup.meetup</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+
+    <record model="ir.actions.server" id="meetup.action_server">
+      <field name="name">Meetup server</field>
+      <field name="model_id" ref="model_meetup_meetup"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+
+
+    <!-- Top menu item -->
+
+    <menuitem name="Meetup" id="meetup.menu_root"/>
+
+    <!-- menu categories -->
+
+    <menuitem name="Menu 1" id="meetup.menu_1" parent="meetup.menu_root"/>
+    <menuitem name="Menu 2" id="meetup.menu_2" parent="meetup.menu_root"/>
+
+    <!-- actions -->
+
+    <menuitem name="List" id="meetup.menu_1_list" parent="meetup.menu_1"
+              action="meetup.action_window"/>
+    <menuitem name="Server to list" id="meetup" parent="meetup.menu_2"
+              action="meetup.action_server"/>
+
+  </data>
+</odoo>
